@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Food Shop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0f172a;--card:#111827;--text:#e5e7eb;--muted:#94a3b8;--accent:#22c55e;--accent-dark:#16a34a;--border:#1f2937}
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,#0b1224,#0f172a 40%,#0b1224);color:var(--text)}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1100px;margin:auto;padding:24px}
+    header{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:16px 0}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand-logo{width:44px;height:44px;border-radius:12px;background:#111827;display:grid;place-items:center;border:1px solid var(--border)}
+    .brand-title{font-weight:800;letter-spacing:.3px}
+    .tag{font-size:12px;color:var(--muted)}
+    .cta{display:flex;gap:10px}
+    .btn{padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:#0b1224;color:var(--text);cursor:pointer}
+    .btn-primary{background:var(--accent);border-color:transparent;color:#052e16;font-weight:700}
+    .btn-primary:hover{background:var(--accent-dark)}
+    .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:center;margin:10px 0 30px}
+    .hero-card{background:radial-gradient(1200px 300px at 20% -40%,rgba(34,197,94,.18),transparent),#0b1224;border:1px solid var(--border);border-radius:20px;padding:22px}
+    .hero h1{margin:0 0 8px;font-size:36px}
+    .hero p{margin:0;color:var(--muted)}
+    .hero img{width:100%;border-radius:16px;display:block;border:1px solid var(--border)}
+
+    .section-title{display:flex;align-items:end;justify-content:space-between;margin:24px 0 10px}
+    .section-title h2{margin:0;font-size:22px}
+    .search{display:flex;gap:8px}
+    .input{background:#0b1224;border:1px solid var(--border);color:var(--text);padding:10px 12px;border-radius:12px;min-width:240px}
+
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    @media (max-width:900px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:600px){.grid{grid-template-columns:1fr}}
+
+    .card{background:linear-gradient(180deg,#0b1224,#0b1224);border:1px solid var(--border);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+    .card img{width:100%;height:180px;object-fit:cover;border-bottom:1px solid var(--border);background:#111827}
+    .card-body{padding:14px;display:grid;gap:8px}
+    .card-title{font-weight:700}
+    .price{font-weight:800}
+    .muted{color:var(--muted)}
+    .actions{display:flex;gap:8px;margin-top:6px}
+
+    .cart-fab{position:fixed;right:20px;bottom:20px;background:var(--accent);color:#052e16;border:none;border-radius:999px;padding:14px 16px;font-weight:800;box-shadow:0 10px 30px rgba(0,0,0,.35);cursor:pointer}
+
+    dialog#cart{width:92vw;max-width:540px;border:1px solid var(--border);background:#0b1224;border-radius:16px;color:var(--text)}
+    dialog::backdrop{background:rgba(2,6,23,.6)}
+    .cart-head{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--border)}
+    .cart-body{padding:12px 14px;max-height:60vh;overflow:auto}
+    .cart-item{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:8px 0;border-bottom:1px dashed #1f2937}
+    .qty{display:flex;gap:8px;align-items:center}
+    .qty button{background:#0b1224;border:1px solid var(--border);color:var(--text);width:28px;height:28px;border-radius:8px;cursor:pointer}
+    .cart-foot{display:grid;gap:12px;padding:12px 14px;border-top:1px solid var(--border)}
+    .total{display:flex;justify-content:space-between;font-weight:800}
+    footer{margin:36px 0 12px;text-align:center;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="brand-logo">👩‍🍳</div>
+        <div>
+          <div class="brand-title">អាហាររហ័សក្រុងបាវិត</div>
+          <div class="tag">ឆ្ញាញ់ • ជាប់ចិត្ត • ដិតអារម្មណ៍</div>
+        </div>
+      </div>
+      
+<div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap">
+  <!-- QR Code Button -->
+  <button class="btn" onclick="openQRCode()">QR CODE USD</button>
+
+  <!-- Telegram Button -->
+  <a class="btn btn-primary" href="https://t.me/+eQtzREien08xZTM1" target="_blank">Telegram Group</a>
+</div>
+
+<!-- QR Code Modal -->
+<dialog id="qrModal">
+  <div style="text-align:center; padding:20px;">
+    <strong>Scan to Pay</strong><br><br>
+    <img src="https://i.postimg.cc/Y04DG3d3/USD.png" alt="Payment QR Code" style="width:200px; height:200px;"><br><br>
+    <button onclick="closeQRCode()">Close</button>
+  </div>
+</dialog>
+
+<script>
+  const qrModal = document.getElementById('qrModal');
+  function openQRCode() { qrModal.showModal(); }
+  function closeQRCode() { qrModal.close(); }
+</script>
+</div>
+    </header>
+    <section class="hero">
+      <div class="hero-card">
+        <h1>ដឹកជញ្ជូនឥតគិតថ្លៃ</h1>
+        <p>អរគុណសម្រាប់ការគាំទ្រ</p>
+<div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap">
+  <!-- QR Code Button -->
+  <button class="btn" onclick="openQRCode()">QR KH</button>
+  <!-- Telegram Button -->
+  <a class="btn btn-primary" href="https://t.me/Vanyou_999" target="_blank">ទាក់ទងអ្នកលក់</a>
+</div>
+
+<!-- QR Code Modal -->
+<dialog id="qrModal">
+  <div style="text-align:center; padding:20px;">
+    <strong>Scan to Pay</strong><br><br>
+    <img src="https://i.postimg.cc/xdd575LP/photo-2025-08-25-18-09-47.jpg" alt="Payment QR Code" style="width:200px; height:200px;"><br><br>
+    <button onclick="closeQRCode()">Close</button>
+  </div>
+</dialog>
+
+<script>
+  const qrModal = document.getElementById('qrModal');
+  function openQRCode() { qrModal.showModal(); }
+  function closeQRCode() { qrModal.close(); }
+</script>
+      </div>
+      <!-- HERO IMAGE: Replace src with your banner image URL or local file path -->
+      <img src="https://i.postimg.cc/DfsqZHgN/10000.jpg" alt="Tasty food banner"/>
+    </section>
+
+    <div class="section-title" id="menu">
+      <h2>លក់ដាច់ច្រើន</h2>
+      <div class="search">
+      </div>
+    </div>
+
+    <div class="grid" id="menuGrid">
+      <!-- === PRODUCT CARD TEMPLATE ===
+        To add your own photo: change the <img src="..."></img> to your image file/url.
+        Example for a local image: src="images/beef-burger.jpg"
+      -->
+
+      <article class="card" data-name="បាយឆាក្ដៅកង្កែប">
+        <img src="https://i.ytimg.com/vi/8hRoh1K698k/maxresdefault.jpg" alt="បាយឆាក្ដៅកង្កែប"/>
+        <div class="card-body">
+          <div class="card-title">បាយឆាក្ដៅកង្កែប </div>
+          <div class="price" data-price="12000">៛12,000</div>
+          <div class="actions">
+            <button class="btn" onclick="addToCart('បាយឆាក្ដៅកង្កែប', 12000)">Add to Cart</button>
+          </div>
+        </div>
+      </article>
+
+
+      <article class="card" data-name="បាយស្ងោជ្រក់សាច់គោ">
+        <img src="https://i.postimg.cc/NMrf16b8/photo-2025-08-25-16-33-39.jpg" alt="បាយស្ងោជ្រក់សាច់គោ"/>
+        <div class="card-body">
+          <div class="card-title">បាយស្ងោជ្រក់សាច់គោ</div>
+       
+          <div class="price" data-price="12,000">៛12,000</div>
+          <div class="actions">
+            <button class="btn" onclick="addToCart('បាយស្ងោជ្រក់សាច់គោ', 12000)">Add to Cart</button>
+          </div>
+        </div>
+      </article>
+
+
+      <article class="card" data-name="បាយឆាម្រះព្រៅ">
+        <img src="https://i.postimg.cc/fRmP05Gj/images-4.jpg" alt="បាយឆាម្រះព្រៅ"/>
+        <div class="card-body">
+          <div class="card-title">បាយឆាម្រះព្រៅ</div>
+          <div class="price" data-price="12000">៛12,000</div>
+          <div class="actions">
+            <button class="btn" onclick="addToCart('បាយឆាម្រះព្រៅ',12000)">Add to Cart</button>
+          </div>
+        </div>
+      </article>
+
+
+      <article class="card" data-name="បាយឆាបន្លែគ្រប់មុខ">
+        <img src="https://i.postimg.cc/KzfjcPcm/large-sd19jpg-q5x-Wqi6-Vk-CYTIQfjhdt-Tw.jpg" alt="បាយឆាបន្លែគ្រប់មុខ"/>
+        <div class="card-body">
+          <div class="card-title">បាយឆាបន្លែគ្រប់មុខ</div>
+          <div class="price" data-price="12000">៛12,000</div>
+          <div class="actions">
+            <button class="btn" onclick="addToCart('បាយឆាបន្លែគ្រប់មុខ', 12000)">Add to Cart</button>
+          </div>
+        </div>
+      </article>
+
+
+      <article class="card" data-name="បាយឆាខាត់ណា">
+        <img src="https://i.postimg.cc/50ydvLq4/Kale4.jpg" alt="បាយឆាខាត់ណា""/>
+        <div class="card-body">
+          <div class="card-title">បាយឆាខាត់ណា</div>
+          <div class="price" data-price="12000">៛12,000</div>
+          <div class="actions">
+            <button class="btn" onclick="addToCart('បាយឆាខាត់ណា', 12000)">Add to Cart</button>
+          </div>
+        </div>
+      </article>
+
+
+      <article class="card" data-name="បាយឆាម្ទេសប្លោក">
+        <img src="https://i.postimg.cc/g2bC4nPW/maxresdefault.jpg" alt="បាយឆាម្ទេសប្លោក"/>
+        <div class="card-body">
+          <div class="card-title">បាយឆាម្ទេសប្លោក</div>
+          <div class="price" data-price="12000">៛12,000</div>
+          <div class="actions">
+            <button class="btn" onclick="addToCart('បាយឆាម្ទេសប្លោក',12000)">Add to Cart</button>
+          </div>
+        </div>
+      </article>
+
+
+      <article class="card" data-name="បាយស្ងោជ្រក់សាច់មាន់">
+        <img src="https://i.postimg.cc/yx5v5SZT/1592342.jpg" alt="បាយស្ងោជ្រក់សាច់មាន់"/>
+        <div class="card-body">
+          <div class="card-title">បាយស្ងោជ្រក់សាច់មាន់</div>
+          <div class="price" data-price="12000">៛12,000</div>
+          <div class="actions">
+            <button class="btn" onclick="addToCart('បាយស្ងោជ្រក់សាច់មាន់',12000)">Add to Cart</button>
+          </div>
+        </div>
+      </article>
+
+
+      <article class="card" data-name="បាយស្ងោជ្រក់ត្រីក្រហម">
+        <img src="https://i.postimg.cc/MGpxqhLr/hq720.jpg" alt="បាយស្ងោជ្រក់ត្រីក្រហម"/>
+        <div class="card-body">
+          <div class="card-title">បាយស្ងោជ្រក់ត្រីក្រហម</div>
+          <div class="price" data-price="12000">៛12,000</div>
+          <div class="actions">
+            <button class="btn" onclick="addToCart('បាយស្ងោជ្រក់ត្រីក្រហម',12000)">Add to Cart</button>
+          </div>
+        </div>
+      </article>
+
+
+      <article class="card" data-name="បាយឆាផ្សិត">
+        <img src="https://i.postimg.cc/tJcwG4f9/2c.jpg" alt="បាយឆាផ្សិត"/>
+        <div class="card-body">
+          <div class="card-title">បាយឆាផ្សិត</div>
+          <div class="price" data-price="12000">៛12,000</div>
+          <div class="actions">
+            <button class="btn" onclick="addToCart('បាយឆាផ្សិត',12000)">Add to Cart</button>
+          </div>
+        </div>
+      </article>
+
+
+      <article class="card" data-name="បាយឆាខ្ញីសាច់មាន់">
+        <img src="https://i.postimg.cc/TPDT1ZGd/sddefault.jpg" alt="បាយឆាខ្ញីសាច់មាន់"/>
+        <div class="card-body">
+          <div class="card-title">បាយឆាខ្ញីសាច់មាន់</div>
+          <div class="price" data-price="12000">៛12,000</div>
+          <div class="actions">
+            <button class="btn" onclick="addToCart('បាយឆាខ្ញីសាច់មាន់',12000)">Add to Cart</button>
+          </div>
+        </div>
+      </article>
+
+ <article class="card" data-name="បាយត្រីខងកំប៉ុង">
+        <img src="https://i.postimg.cc/MTL05MNb/food-9.jpg" alt="បាយត្រីខងកំប៉ុង"/>
+        <div class="card-body">
+          <div class="card-title">បាយត្រីខងកំប៉ុង</div>
+          <div class="price" data-price="10000">៛10,000</div>
+          <div class="actions">
+            <button class="btn" onclick="addToCart('បាយត្រីខងកំប៉ុង',10000)">Add to Cart</button>
+          </div>
+        </div>
+      </article>
+
+
+ <article class="card" data-name="បាយឆាសាច់គោ">
+        <img src="https://i.postimg.cc/7YjH4H8s/images.jpg" alt="បាយឆាសាច់គោ"/>
+        <div class="card-body">
+          <div class="card-title">បាយឆាសាច់គោ</div>
+          <div class="price" data-price="10000">៛10,000</div>
+          <div class="actions">
+            <button class="btn" onclick="addToCart('បាយឆាសាច់គោ',10000)">Add to Cart</button>
+          </div>
+        </div>
+      </article>
+      
+       <article class="card" data-name="បាយស្ងោជ្រក់បង្គា">
+        <img src="https://i.postimg.cc/xTNkMF9Z/maxresdefault-1.jpg" alt="បាយស្ងោជ្រក់បង្គា"/>
+        <div class="card-body">
+          <div class="card-title">បាយស្ងោជ្រក់បង្គា</div>
+          <div class="price" data-price="15000">៛15,000</div>
+          <div class="actions">
+            <button class="btn" onclick="addToCart('បាយស្ងោជ្រក់បង្គា',15000)">Add to Cart</button>
+          </div>
+        </div>
+      </article>
+      
+       <article class="card" data-name="បាយឡុកឡាក់">
+        <img src="https://i.postimg.cc/MHT99J9V/gssy-listing.jpg" alt="បាយឡុកឡាក់"/>
+        <div class="card-body">
+          <div class="card-title">បាយឡុកឡាក់</div>
+          <div class="price" data-price="12000">៛12,000</div>
+          <div class="actions">
+            <button class="btn" onclick="addToCart('បាយឡុកឡាក់',12000)">Add to Cart</button>
+          </div>
+        </div>
+      </article>
+      
+       <article class="card" data-name="បាយឆាសាច់មាន់គល់ខ្ទឹម">
+        <img src="https://i.postimg.cc/fbq5qTrC/sddefault-1.jpg" alt="បាយឆាសាច់មាន់គល់ខ្ទឹម"/>
+        <div class="card-body">
+          <div class="card-title">បាយឆាសាច់មាន់គល់ខ្ទឹម</div>
+          <div class="price" data-price="12000">៛12,000</div>
+          <div class="actions">
+            <button class="btn" onclick="addToCart('បាយឆាសាច់មាន់គល់ខ្ទឹម',12000)">Add to Cart</button>
+          </div>
+        </div>
+      </article>
+      
+       <article class="card" data-name="បាយឆាក្ដៅសាច់មាន់">
+        <img src="https://i.postimg.cc/TPDT1ZGd/sddefault.jpg" alt="បាយឆាក្ដៅសាច់មាន់"/>
+        <div class="card-body">
+          <div class="card-title">បាយឆាក្ដៅសាច់មាន់</div>
+          <div class="price" data-price="12000">៛12,000</div>
+          <div class="actions">
+            <button class="btn" onclick="addToCart('បាយឆាក្ដៅសាច់មាន់',12000)">Add to Cart</button>
+          </div>
+        </div>
+      </article>
+      
+       <article class="card" data-name="បាយឆាសាច់ក្រក">
+        <img src="https://i.postimg.cc/3wj0WLgv/906368.jpg" alt="បាយឆាសាច់ក្រក"/>
+        <div class="card-body">
+          <div class="card-title">បាយឆាសាច់ក្រក</div>
+          <div class="price" data-price="12000">៛12,000</div>
+          <div class="actions">
+            <button class="btn" onclick="addToCart('បាយឆាសាច់ក្រក',12000)">Add to Cart</button>
+          </div>
+        </div>
+      </article>
+      
+       <article class="card" data-name="បាយឆាក្ដៅសាច់គោ">
+        <img src="https://i.postimg.cc/pTDCWYdG/mps63265596-6.jpg" alt="បាយឆាក្ដៅសាច់គោ"/>
+        <div class="card-body">
+          <div class="card-title">បាយឆាក្ដៅសាច់គោ</div>
+          <div class="price" data-price="12000">៛12,000</div>
+          <div class="actions">
+            <button class="btn" onclick="addToCart('បាយឆាក្ដៅសាច់គោ',12000)">Add to Cart</button>
+          </div>
+        </div>
+      </article>
+      
+             <article class="card" data-name="បាយចៀនជួន">
+        <img src="https://i.postimg.cc/hGm6mmjx/maxresdefault-2.jpg" alt="បាយចៀនជួន"/>
+        <div class="card-body">
+          <div class="card-title">បាយចៀនជួន</div>
+          <div class="price" data-price="12000">៛12,000</div>
+          <div class="actions">
+            <button class="btn" onclick="addToCart('បាយចៀនជួន',12000)">Add to Cart</button>
+          </div>
+        </div>
+      </article>
+
+             <article class="card" data-name="បាយភ្លៅមាន់">
+        <img src="https://i.postimg.cc/506htrz4/images-2.jpg" alt="បាយភ្លៅមាន់"/>
+        <div class="card-body">
+          <div class="card-title">បាយភ្លៅមាន់</div>
+          <div class="price" data-price="12000">៛12,000</div>
+          <div class="actions">
+            <button class="btn" onclick="addToCart('បាយភ្លៅមាន់',12000)">Add to Cart</button>
+          </div>
+        </div>
+      </article>
+
+             <article class="card" data-name="បាយសម្លរកកូរគ្រឿង">
+        <img src="https://i.postimg.cc/wMPfGx4L/photo-2025-08-15-10-10-07.jpg" alt="បាយសម្លរកកូរគ្រឿង"/>
+        <div class="card-body">
+          <div class="card-title">បាយសម្លរកកូរគ្រឿង</div>
+          <div class="price" data-price="12000">៛12,000</div>
+          <div class="actions">
+            <button class="btn" onclick="addToCart('បាយសម្លរកកូរគ្រឿង',12000)">Add to Cart</button>
+          </div>
+        </div>
+      </article>
+
+             <article class="card" data-name="បាយសម្លរម្ចូរយួន">
+        <img src="https://i.postimg.cc/YqYZsYkS/image.jpg" alt="បាយសម្លរម្ចូរយួន"/>
+        <div class="card-body">
+          <div class="card-title">បាយសម្លរម្ចូរយួន</div>
+          <div class="price" data-price="12000">៛12,000</div>
+          <div class="actions">
+            <button class="btn" onclick="addToCart('បាយសម្លរម្ចូរយួន',12000)">Add to Cart</button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+<button class="cart-fab" onclick="openCart()">🛒 <span id="cartCount">0</span></button>
+
+<dialog id="cart">
+  <div class="cart-head">
+    <strong>Your Cart</strong>
+    <button class="btn" onclick="closeCart()">Close</button>
+  </div>
+
+  <div class="cart-body" id="cartItems"></div>
+
+  <div class="cart-foot">
+    <!-- Buyer Info -->
+    <div style="margin-bottom:10px;">
+      <label>សូមបំពេញឈ្មោះតេលេក្រាមរបស់អ្នក​(EX: @Xingsay)</label><br>
+      <input type="text" id="buyerTelegram" placeholder="@ឈ្មោះតេលេក្រាមអ្នក" style="width:100%;">
+    </div>
+    <div style="margin-bottom:10px;">
+      <label>សូមបំពេញទីតាំងរបស់អ្នក:</label><br>
+      <input type="text" id="buyerLocation" placeholder="ទីតាំងរបស់អ្នក" style="width:100%;">
+    </div>
+
+    <div class="total">
+      <span>សរុប</span>
+      <span id="cartTotal">៛0.00</span>
+    </div>
+
+    <!-- Checkout Button -->
+    <button class="btn btn-primary" id="checkoutBtn">ចុចទីនេះដើម្បីកម្មង់</button>
+
+    <small class="muted">អរគុណសម្រាប់ការកម្មង់❤️❤️.</small>
+  </div>
+</dialog>
+
+    <footer>© <span id="year"></span>អាហាររហ័សក្រុងបាវិត •  Power by Xingsay</footer>
+  </div>
+
+<script>
+  // ======= CART MODAL =======
+  const dlg = document.getElementById('cart');
+  function openCart(){ dlg.showModal(); }
+  function closeCart(){ dlg.close(); }
+
+  // ======= CART LOGIC =======
+  const cart = [];
+
+  function addToCart(name, price){
+    const found = cart.find(i=>i.name===name);
+    if(found){found.qty++;} else {cart.push({name, price, qty:1});}
+    renderCart();
+  }
+
+  function changeQty(name, delta){
+    const i = cart.findIndex(x=>x.name===name);
+    if(i>-1){
+      cart[i].qty += delta;
+      if(cart[i].qty<=0) cart.splice(i,1);
+    }
+    renderCart();
+  }
+
+  function renderCart(){
+    const items = document.getElementById('cartItems');
+    const count = cart.reduce((n,i)=>n+i.qty,0);
+    const total = cart.reduce((n,i)=>n+i.qty*i.price,0);
+    document.getElementById('cartCount').textContent = count;
+    document.getElementById('cartTotal').textContent = `៛${total.toLocaleString()}`;
+
+    if(cart.length===0){
+      items.innerHTML = '<div class="muted">Your cart is empty.</div>';
+    } else {
+      items.innerHTML = cart.map(i=>`
+        <div class="cart-item">
+          <div>🍽</div>
+          <div>
+            <div><strong>${i.name}</strong></div>
+            <div class="muted">៛${i.price.toLocaleString()} each</div>
+          </div>
+          <div class="qty">
+            <button onclick="changeQty('${i.name.replace(/'/g, "\\'")}', -1)">−</button>
+            <div>${i.qty}</div>
+            <button onclick="changeQty('${i.name.replace(/'/g, "\\'")}', 1)">+</button>
+          </div>
+        </div>`).join('');
+    }
+  }
+
+  // ======= TELEGRAM CONFIG =======
+  const BOT_TOKEN = "7597869925:AAHBR19p7r8f3S0t5V_pPqhEgs2v2JMIU_I";
+  const GROUP_CHAT_ID = "-1002994135971";
+
+  document.getElementById('checkoutBtn').addEventListener('click', ()=>{
+    const telegram = document.getElementById('buyerTelegram').value.trim();
+    const location = document.getElementById('buyerLocation').value.trim();
+
+    if(cart.length === 0){
+      alert('មិនមានមុខម្ហូប.');
+      return;
+    }
+    if(!telegram || !location){
+      alert('Please fill your Telegram username and location!');
+      return;
+    }
+
+    const lines = cart.map(i=>`• ${i.name} x${i.qty} = ៛${(i.qty*i.price).toFixed(0)}`);
+    const total = cart.reduce((n,i)=>n+i.qty*i.price,0);
+    const msg = `សួរស្ដីបង ខ្ញុំចង់កម្មង់:\n${lines.join('\n')}\nTotal: ៛${total.toFixed(0)}\nTelegram: ${telegram}\nLocation: ${location}`;
+
+    // Send order to Telegram group via bot
+    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${GROUP_CHAT_ID}&text=${encodeURIComponent(msg)}`)
+      .then(()=> alert('✅ ការកម្មង់របស់អ្នកបានផ្ញើទៅក្រុម Telegram រួចរាល់!'))
+      .catch(()=> alert('❌ បរាជ័យក្នុងការផ្ញើកម្មង់។'));
+
+    closeCart();
+    cart.length = 0;
+    renderCart();
+  });
+</script>
