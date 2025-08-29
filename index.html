@@ -124,6 +124,65 @@
       <img src="https://i.postimg.cc/DfsqZHgN/10000.jpg" alt="Tasty food banner"/>
     </section>
 
+<!-- Free Coca-Cola Promotion with Enhanced Blinking -->
+<section class="promotion" style="
+    background: linear-gradient(135deg, #fff6e6, #ffe0b3);
+    padding: 30px;
+    margin-top: 20px;
+    border-radius: 15px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+">
+
+  <!-- Blinking Title -->
+  <h2 class="blink-text" style="
+      color: #e74c3c;
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px #ffd700;
+  ">
+    🎉 ការផ្ដល់ជូនថ្ងៃនេះ!
+  </h2>
+
+  <!-- Description -->
+  <p style="
+      font-size: 18px;
+      margin: 10px 0 20px;
+      color: #333;
+  ">
+   កម្មង់ថ្ងៃនេះនិងទទួលបាន <strong>Coca-Cola</strong>ជាមួយអាហាររបស់អ្នក 
+  </p>
+
+  <!-- Blinking Image -->
+  <img class="blink-image" src="https://i.postimg.cc/NFpysfLn/35.webp" alt="Free Coca-Cola" style="
+      width: 180px;
+      height: auto;
+      margin: 15px 0;
+  ">
+
+  <!-- Button -->
+  <div>
+    <button class="btn btn-success" onclick="alert('Thank you for ordering! Your free Coca-Cola will be included.')" style="
+        background: #e74c3c;
+        color: white;
+        font-size: 18px;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        transition: transform 0.2s, box-shadow 0.2s;
+    " 
+    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 18px rgba(0,0,0,0.3)';" 
+    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.2)';">
+      Claim Your Free Coca-Cola 🥤
+    </button>
+  </div>
+</section>
+
     <div class="section-title" id="menu">
       <h2>លក់ដាច់ច្រើន</h2>
       <div class="search">
@@ -1307,6 +1366,7 @@
     renderCart();
   });
 </script>
+
 
 
 
