@@ -124,7 +124,45 @@
       <img src="https://i.postimg.cc/DfsqZHgN/10000.jpg" alt="Tasty food banner"/>
     </section>
 
-<!-- Free Coca-Cola Promotion with Enhanced Blinking -->
+<!-- Free Coca-Cola Promotion with Elegant Blinking Effect -->
+<style>
+  @keyframes elegant-blink {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+      text-shadow: 0 0 10px #ff6f61, 0 0 20px #ffd700;
+      color: #e74c3c;
+    }
+    50% {
+      opacity: 0.75;
+      transform: scale(1.07);
+      text-shadow: 0 0 25px #ff0000, 0 0 35px #ffcc00;
+      color: #ff1a1a;
+    }
+  }
+
+  @keyframes image-glow-blink {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+      filter: drop-shadow(0 0 12px #ffcc00);
+    }
+    50% {
+      transform: scale(1.08);
+      opacity: 0.8;
+      filter: drop-shadow(0 0 25px #ff3300);
+    }
+  }
+
+  .blink-text {
+    animation: elegant-blink 1.8s infinite ease-in-out;
+  }
+
+  .blink-image {
+    animation: image-glow-blink 2.2s infinite ease-in-out;
+  }
+</style>
+
 <section class="promotion" style="
     background: linear-gradient(135deg, #fff6e6, #ffe0b3);
     padding: 30px;
@@ -136,13 +174,11 @@
     box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 ">
 
-  <!-- Blinking Title -->
+  <!-- Glowing & Blinking Title -->
   <h2 class="blink-text" style="
-      color: #e74c3c;
       font-size: 32px;
       font-weight: bold;
       margin-bottom: 15px;
-      text-shadow: 2px 2px #ffd700;
   ">
     🎉 ការផ្ដល់ជូនថ្ងៃនេះ!
   </h2>
@@ -153,10 +189,10 @@
       margin: 10px 0 20px;
       color: #333;
   ">
-   កម្មង់ថ្ងៃនេះនិងទទួលបាន <strong>Coca-Cola</strong>ជាមួយអាហាររបស់អ្នក 
+    កម្មង់ថ្ងៃនេះនិងទទួលបាន <strong>Coca-Cola</strong> ជាមួយអាហាររបស់អ្នក 
   </p>
 
-  <!-- Blinking Image -->
+  <!-- Glowing & Blinking Image -->
   <img class="blink-image" src="https://i.postimg.cc/NFpysfLn/35.webp" alt="Free Coca-Cola" style="
       width: 180px;
       height: auto;
@@ -165,7 +201,7 @@
 
   <!-- Button -->
   <div>
-    <button class="btn btn-success" onclick="alert('Thank you for ordering! Your free Coca-Cola will be included.')" style="
+    <button class="btn btn-success" onclick="alert('អរគុណសម្រាប់ការកម្មង់ កូរការបស់អ្នកនិងត្រូវបានបន្ថែម.')" style="
         background: #e74c3c;
         color: white;
         font-size: 18px;
@@ -1366,6 +1402,7 @@
     renderCart();
   });
 </script>
+
 
 
 
