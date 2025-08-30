@@ -164,7 +164,7 @@
 </style>
 
 <section class="promotion" style="
-    background: linear-gradient(135deg, #fff6e6, #ffe0b3);
+    background: #e74c3c; /* solid red background */
     padding: 30px;
     margin-top: 20px;
     border-radius: 15px;
@@ -187,7 +187,7 @@
   <p style="
       font-size: 18px;
       margin: 10px 0 20px;
-      color: #333;
+      color: #fff; /* white text for contrast */
   ">
     កម្មង់ថ្ងៃនេះនិងទទួលបាន <strong>Coca-Cola</strong> ជាមួយអាហាររបស់អ្នក 
   </p>
@@ -201,23 +201,35 @@
 
   <!-- Button -->
   <div>
-    <button class="btn btn-success" onclick="alert('អរគុណសម្រាប់ការកម្មង់ កូរការបស់អ្នកនិងត្រូវបានបន្ថែម.')" style="
-        background: #e74c3c;
-        color: white;
-        font-size: 18px;
-        padding: 12px 25px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        transition: transform 0.2s, box-shadow 0.2s;
-    " 
-    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 18px rgba(0,0,0,0.3)';" 
-    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.2)';">
+    <button class="btn btn-success" 
+        onclick="claimFreeCoca()" 
+        style="
+            background: #e74c3c;
+            color: white;
+            font-size: 18px;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        " 
+        onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 18px rgba(0,0,0,0.3)';" 
+        onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.2)';">
       Claim Your Free Coca-Cola 🥤
     </button>
   </div>
 </section>
+
+<script>
+  function claimFreeCoca() {
+    // Add Coca-Cola as a free item (price 0)
+    addToCart('Coca-Cola Free', 0);
+
+    // Optional alert
+    alert('✅ អរគុណសម្រាប់ការកម្មង់! កូកា-កូឡារបស់អ្នកត្រូវបានបន្ថែម.');
+  }
+</script>
 
     <div class="section-title" id="menu">
       <h2>លក់ដាច់ច្រើន</h2>
@@ -1402,6 +1414,7 @@
     renderCart();
   });
 </script>
+
 
 
 
